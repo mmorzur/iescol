@@ -1,4 +1,4 @@
-# aula.lab — plantilla para GitHub Pages
+# TOC.lab — plantilla para GitHub Pages
 
 Galería docente personal de proyectos, trabajos del alumnado y recursos. Sitio estático: **HTML + CSS + JavaScript sin dependencias ni servidor**. Compatible con GitHub Pages.
 
@@ -37,7 +37,7 @@ Los filtros de **año académico, nivel/curso y materia** se generan automática
 
 - Elimina las seis fichas de muestra (no corresponden a trabajos auténticos) o sustitúyelas por proyectos revisados.
 - Cambia `demoMode: true` por `demoMode: false` en `js/data.js`. Desaparecerá el aviso de demostración.
-- Actualiza el título de la página y textos generales de `index.html` si deseas cambiar `aula.lab`.
+- Actualiza el título de la página y textos generales de `index.html` si deseas cambiar `TOC.lab`.
 - No publiques nombres completos, imágenes de estudiantes identificables, teléfonos ni otros datos personales sin base y autorización adecuadas. Revisa permisos de imágenes, textos y fuentes externas.
 - No incluyas claves API ni contraseñas: los archivos de un sitio estático público son visibles.
 
