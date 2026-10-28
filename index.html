@@ -1,14 +1,107 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos web - IES Los Colegiales</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Archivo vivo de proyectos, recursos y experiencias para aprender creando.">
+  <title>aula.lab — Ideas que salen del aula</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/data.js"></script>
+  <script defer src="js/app.js"></script>
 </head>
 <body>
-    <h1>Proyectos web - IES Los Colegiales</h1>
-    <h2>Computación y Robótica - 3.º ESO</h2>
-    <p>Galería de proyectos HTML y CSS del alumnado.</p>
+  <a href="#contenido" class="skip-link">Saltar al contenido</a>
+  <div id="demoNotice" class="demo-notice" hidden><span class="demo-blip" aria-hidden="true"></span><strong>Plantilla de muestra.</strong> Los proyectos son ejemplos editables, no trabajos publicados de alumnado.</div>
+  <header class="site-header" id="inicio">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="aula.lab, volver al inicio">
+        <span class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+        <span class="brand-name">aula<span class="brand-dot">.</span>lab<span class="brand-cursor">_</span></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+        <a href="#archivo">Archivo</a>
+        <a href="#laboratorio">Laboratorio</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#acerca">El espacio</a>
+      </nav>
+      <a href="#archivo" class="header-cta">Ver proyectos <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero container" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="led" aria-hidden="true"></span> DOCENCIA · TECNOLOGÍA · CREATIVIDAD</div>
+        <h1 id="heroTitle">Ideas que salen <span class="underline-word">del aula<span class="pixel-stop" aria-hidden="true">.</span></span></h1>
+        <p class="hero-lede">Un espacio para guardar lo que merece continuar: <strong>proyectos del alumnado, experiencias docentes y recursos</strong> que convierten las ideas en algo tangible.</p>
+        <div class="hero-actions">
+          <a href="#archivo" class="button button-primary">Explorar proyectos <span aria-hidden="true">→</span></a>
+          <button type="button" class="button button-secondary" data-jump-kind="docente">Ir al laboratorio <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="hero-meta"><span class="tiny-squares" aria-hidden="true">▪ ▪ ▪</span> <span>Aprender · Construir · Compartir</span></div>
+      </div>
+      <div class="hero-stage" aria-label="Ilustración pixel art de un robot en una ventana de trabajo">
+        <div class="floating-label top-label">NO ES SOLO TEORÍA <span aria-hidden="true">✳</span></div>
+        <div class="terminal-window">
+          <div class="terminal-header"><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div><span>proyecto_nuevo.html</span><span class="terminal-more">×</span></div>
+          <div class="terminal-canvas">
+            <div class="grid-back" aria-hidden="true"></div>
+            <svg class="pixel-robot" viewBox="0 0 32 32" role="img" aria-label="Robot de píxeles">
+              <rect x="14" y="1" width="4" height="4" fill="#172338"/><rect x="15" y="0" width="2" height="2" fill="#ffbe69"/>
+              <rect x="13" y="5" width="6" height="3" fill="#172338"/><rect x="6" y="8" width="20" height="17" fill="#172338"/>
+              <rect x="8" y="10" width="16" height="13" fill="#b6f1b4"/><rect x="3" y="13" width="3" height="7" fill="#172338"/><rect x="26" y="13" width="3" height="7" fill="#172338"/>
+              <rect x="11" y="14" width="4" height="4" fill="#172338"/><rect x="18" y="14" width="4" height="4" fill="#172338"/>
+              <rect x="13" y="20" width="7" height="2" fill="#172338"/><rect x="10" y="25" width="12" height="5" fill="#172338"/><rect x="12" y="25" width="8" height="3" fill="#ffbe69"/>
+              <rect x="8" y="27" width="3" height="4" fill="#172338"/><rect x="21" y="27" width="3" height="4" fill="#172338"/>
+            </svg>
+            <span class="pixel-spark spark-one" aria-hidden="true">✦</span><span class="pixel-spark spark-two" aria-hidden="true">✳</span>
+            <div class="floating-code"><span class="code-purple">&lt;idea&gt;</span><br>&nbsp;&nbsp;aprender();<br><span class="code-purple">&lt;/idea&gt;</span></div>
+          </div>
+          <div class="terminal-footer"><span><i class="status-dot" aria-hidden="true"></i> sistema en marcha</span><span>01 / ∞</span></div>
+        </div>
+        <div class="floating-label bottom-label">BUILD / LEARN / REPEAT <span aria-hidden="true">▣</span></div>
+      </div>
+    </section>
+
+    <section class="intro-strip container" aria-label="Áreas del sitio">
+      <div class="intro-tile"><span class="tile-index">01 / EXPLORAR</span><strong>Proyectos del alumnado</strong><span>Un archivo por curso y materia.</span></div>
+      <div class="intro-tile"><span class="tile-index">02 / CREAR</span><strong>Laboratorio docente</strong><span>Ideas, prototipos y experiencias.</span></div>
+      <div class="intro-tile"><span class="tile-index">03 / COMPARTIR</span><strong>Recursos útiles</strong><span>Herramientas para seguir construyendo.</span></div>
+    </section>
+
+    <section class="projects-section" id="archivo" aria-labelledby="archiveTitle">
+      <div class="container">
+        <div class="section-heading"><div><span class="section-kicker">// 001 · EXPLORA</span><h2 id="archiveTitle">Archivo de proyectos<span class="accent-dot">.</span></h2><p>Trabajos que documentan procesos, no solo resultados.</p></div><div class="section-side-note"><span class="pixel-mark" aria-hidden="true">▦</span><span><strong id="countTotal">0</strong><small>fichas de muestra</small></span></div></div>
+        <div class="filter-panel">
+          <div class="filter-top">
+            <div class="segmented" role="group" aria-label="Tipo de proyecto">
+              <button type="button" class="segment is-active" data-kind="todos" aria-pressed="true">Todos</button>
+              <button type="button" class="segment" data-kind="alumnado" aria-pressed="false">Del alumnado</button>
+              <button type="button" class="segment" data-kind="docente" aria-pressed="false">Laboratorio</button>
+            </div>
+            <label class="searchbox"><span class="search-icon" aria-hidden="true">⌕</span><span class="sr-only">Buscar proyectos</span><input id="searchInput" type="search" placeholder="Buscar por título, tema..." autocomplete="off"></label>
+          </div>
+          <div class="filter-bottom"><div class="select-group"><label for="yearSelect">Año académico</label><select id="yearSelect"><option value="todos">Todos los años</option></select></div><div class="select-group"><label for="courseSelect">Nivel / curso</label><select id="courseSelect"><option value="todos">Todos los niveles</option></select></div><div class="select-group"><label for="subjectSelect">Materia</label><select id="subjectSelect"><option value="todas">Todas las materias</option></select></div><div class="filter-result" id="resultCount" role="status" aria-live="polite"></div><button id="resetFilters" type="button" class="reset-button">Limpiar filtros ↺</button></div>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+        <div class="empty-state" id="emptyState" hidden><span aria-hidden="true">▧</span><h3>No hay resultados con esos filtros</h3><p>Prueba con otra búsqueda o elimina los filtros.</p><button class="button button-secondary" id="emptyReset" type="button">Mostrar todo</button></div>
+      </div>
+    </section>
+
+    <section class="laboratory-section container" id="laboratorio" aria-labelledby="labTitle">
+      <div class="lab-statement"><span class="section-kicker">// 002 · EXPERIMENTA</span><h2 id="labTitle">El laboratorio<span class="accent-dot">.</span></h2><p>Una zona para reunir <strong>proyectos docentes, materiales propios y pequeños experimentos</strong>. Porque muchas buenas ideas empiezan como un primer prototipo.</p><button class="text-link" type="button" data-jump-kind="docente">Ver proyectos del laboratorio <span aria-hidden="true">↗</span></button></div>
+      <div class="lab-panel"><div class="lab-panel-top"><span>NOTAS_DEL_LAB.TXT</span><span class="lab-blink" aria-hidden="true">■</span></div><div class="lab-content"><p><span>01.</span> Hacerlo comprensible.</p><p><span>02.</span> Probarlo en el aula.</p><p><span>03.</span> Mejorarlo con evidencias.</p><div class="lab-graphic" aria-hidden="true"><span>✳</span><span>+</span><span>▦</span></div></div></div>
+    </section>
+
+    <section class="resources-section" id="recursos" aria-labelledby="resourcesTitle"><div class="container"><div class="section-heading"><div><span class="section-kicker">// 003 · CONTINÚA</span><h2 id="resourcesTitle">Caja de herramientas<span class="accent-dot">.</span></h2><p>Recursos abiertos de referencia para pasar de la idea al proyecto.</p></div></div><div id="resourcesGrid" class="resources-grid"></div></div></section>
+
+    <section class="about-section container" id="acerca" aria-labelledby="aboutTitle"><div class="about-stamp" aria-hidden="true"><span>{</span> <span>+</span> <span>}</span></div><div><span class="section-kicker">// 004 · PROPÓSITO</span><h2 id="aboutTitle">Aprender creando.<br><em>Compartir aprendiendo.</em></h2><p>Este espacio reúne proyectos, recursos y experiencias que conectan la tecnología con problemas reales. Está pensado para crecer con cada curso, sin depender de un centro, una plataforma cerrada o una herramienta concreta.</p></div></section>
+  </main>
+
+  <footer class="footer"><div class="container footer-inner"><a href="#inicio" class="footer-brand">aula<span>.</span>lab_</a><span>Una bitácora de proyectos y aprendizaje.</span><a href="#inicio" class="back-top">Volver arriba ↑</a></div></footer>
+
+  <dialog id="projectDialog" class="project-dialog" aria-labelledby="dialogTitle"><div class="dialog-inner"><button class="dialog-close" type="button" id="dialogClose" aria-label="Cerrar ficha">×</button><span class="dialog-kicker" id="dialogType"></span><h2 id="dialogTitle"></h2><p id="dialogSummary" class="dialog-summary"></p><div class="dialog-meta" id="dialogMeta"></div><h3>Sobre el proyecto</h3><p id="dialogDescription"></p><div id="dialogTags" class="tag-list"></div><div id="dialogLinks" class="dialog-links"></div></div></dialog>
 </body>
 </html>
