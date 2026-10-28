@@ -35,6 +35,7 @@ img,svg{max-width:100%}
 .brand{display:inline-flex;align-items:center;gap:12px;flex:0 0 auto}
 .brand-name{font-family:var(--mono);font-size:23px;letter-spacing:-1.5px;font-weight:900}
 .brand-dot{color:#248665}.brand-cursor{color:#bd6654;animation:blink 1.6s steps(2,start) infinite}
+/*
 .brand-icon{position:relative;width:30px;height:30px;display:grid;grid-template-columns:repeat(3,8px);grid-template-rows:repeat(3,8px);gap:3px;transform:rotate(-5deg)}
 .brand-icon span{background:var(--ink)}
 .brand-icon span:nth-child(1){grid-column:1;grid-row:1;background:var(--mint-deep)}
@@ -42,6 +43,25 @@ img,svg{max-width:100%}
 .brand-icon span:nth-child(3){grid-column:2;grid-row:2;background:#ffc66e}
 .brand-icon span:nth-child(4){grid-column:1;grid-row:3}
 .brand-icon span:nth-child(5){grid-column:3;grid-row:3;background:var(--mint-deep)}
+*/
+
+/* Logo del sitio */
+.brand-logo {
+    display: block;
+    width: auto;
+    height: 48px;
+    max-width: 190px;
+    object-fit: contain;
+}
+
+/* Adaptación para móviles */
+@media (max-width: 640px) {
+    .brand-logo {
+        height: 42px;
+        max-width: 155px;
+    }
+}
+
 .main-nav{display:flex;gap:31px;margin:auto;align-items:center}
 .main-nav a{font-size:13px;font-weight:720;color:#4b565f;transition:color .2s}
 .main-nav a:hover{color:#08754c}
