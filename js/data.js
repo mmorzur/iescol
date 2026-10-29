@@ -18,7 +18,7 @@ window.SITE_DATA = {
       etiquetas: ["HTML", "CSS", "Web"],
       color: "menta",
       icono: "web",
-      url: "ejemplos/web-divulgacion/index.html",
+      url: "", // Ruta de demostración omitida: el archivo de destino no se ha facilitado.
       codigo: ""
     },
     {
