@@ -1,60 +1,106 @@
-# TOC.lab — plantilla para GitHub Pages
+# TOC LAB
 
-Galería docente personal de proyectos, trabajos del alumnado y recursos. Sitio estático: **HTML + CSS + JavaScript sin dependencias ni servidor**. Compatible con GitHub Pages.
+Web personal con tres catálogos independientes y una portada que muestra las tres últimas incorporaciones de cada área. HTML, CSS y JavaScript sin dependencias, compatible con GitHub Pages y con rutas relativas.
 
-## Publicar por primera vez
+## Páginas
 
-1. Abre tu repositorio en GitHub y comprueba que la rama principal sea `main`.
-2. Pulsa **Add file → Upload files** y sube **el contenido** de esta carpeta, manteniendo sus subcarpetas (`css`, `js`, `ejemplos`), no la carpeta contenedora.
-3. Confirma con **Commit changes**.
-4. En **Settings → Pages** elige **Deploy from a branch → main → /(root)** y pulsa **Save**.
-5. La URL habitual es `https://USUARIO.github.io/REPOSITORIO/`. El `index.html` principal debe estar en la raíz elegida.
+| Archivo | Contenido |
+| --- | --- |
+| `index.html` | Portada y últimas incorporaciones de las tres áreas |
+| `laboratorio.html` | Aplicaciones web propias, descripción y enlace |
+| `proyectos.html` | Proyectos del alumnado con búsqueda y filtros combinados |
+| `webs.html` | Webs de otros autores con atribución, descripción, categoría y enlace |
 
-## Añadir proyectos, sin editar las páginas
+El logotipo y la paleta de TOC LAB se mantienen. El diseño utiliza fondo claro, azul y ámbar, con un bloque oscuro para el laboratorio en la portada.
 
-Edita `js/data.js` y añade un objeto a `SITE_DATA.proyectos` siguiendo los ejemplos. Campos:
+## Blog docente y autoría
 
-- `id`: identificador único y estable (sin espacios); por ejemplo, `web-energia`.
-- `tipo`: `alumnado` o `docente`.
-- `titulo`, `resumen`, `descripcion`: textos públicos.
-- `curso`, `materia`, `anio`: sirven para filtrar el archivo.
-- `etiquetas`: lista corta, por ejemplo `["HTML", "CSS"]`.
-- `color`: `menta`, `lila`, `melocoton`, `amarillo`, `azul` o `rosa`.
-- `icono`: `web`, `robot`, `chart`, `code`, `grid` o `spark`.
-- `url`: ruta o enlace HTTPS a la web publicada (se deja `""` hasta que exista).
-- `codigo`: enlace HTTPS al código si quieres mostrarlo (opcional).
+La portada incluye un acceso destacado al blog docente facilitado por el autor:
+https://blogsaverroes.juntadeandalucia.es/tecnologocompulsivo/
 
-Los filtros de **año académico, nivel/curso y materia** se generan automáticamente a partir de los registros. No hay que añadir manualmente las opciones.
+El blog reúne contenidos propios y queda separado del catálogo de webs de otros autores. La firma «By Miguel Ángel Morales» aparece en el pie de las cuatro páginas y enlaza al mismo blog. El antiguo botón «Entrar al laboratorio» se ha eliminado de la presentación inicial.
 
-## Añadir un proyecto HTML del alumnado
+## Gestionar los contenidos
 
-1. Crea una carpeta dentro del repositorio, por ejemplo `proyectos/2026-27/3ESO-A/web-01/`.
-2. Dentro coloca `index.html`, otros HTML, `style.css`, imágenes y demás recursos. Asegura que sus rutas sean relativas.
-3. En `js/data.js`, crea su ficha con `url: "proyectos/2026-27/3ESO-A/web-01/index.html"`.
-4. Haz **Commit changes**. Abre la galería y pulsa la flecha de la ficha para comprobar el enlace.
+Edita únicamente `js/data.js`. La navegación, los filtros y la portada se actualizan desde ese archivo; no hay que repetir las fichas en el HTML.
 
-## Cuando la web sea real
+- `apps`: aplicaciones propias.
+- `proyectos`: trabajos del alumnado.
+- `webs`: sitios externos de otros autores.
+- `limiteInicio`: número máximo de fichas por sección en portada; por defecto, 3.
 
-- Elimina las seis fichas de muestra (no corresponden a trabajos auténticos) o sustitúyelas por proyectos revisados.
-- Cambia `demoMode: true` por `demoMode: false` en `js/data.js`. Desaparecerá el aviso de demostración.
-- Actualiza el título de la página y textos generales de `index.html` si deseas cambiar `TOC.lab`.
-- No publiques nombres completos, imágenes de estudiantes identificables, teléfonos ni otros datos personales sin base y autorización adecuadas. Revisa permisos de imágenes, textos y fuentes externas.
-- No incluyas claves API ni contraseñas: los archivos de un sitio estático público son visibles.
+Cada ficha lleva un `id` único, un título y los textos y enlaces adecuados a su catálogo. Las URL admiten HTTPS o rutas relativas. Una URL vacía muestra la ficha sin inventar un enlace.
 
-## Estructura
+### Incorporaciones recientes
 
+`fechaAlta` indica la **fecha real de incorporación al catálogo**, con formato `AAAA-MM-DD`. Se ordena de la más reciente a la más antigua. Las fichas sin fecha aparecen después, en el orden de `data.js`; los empates conservan también ese orden. No confundir con el curso académico del trabajo.
+
+Las apps de este rediseño se incorporaron el 01/11/2026. No se han atribuido fechas históricas a las fichas heredadas que no las tenían.
+
+### Añadir una aplicación
+
+```js
+{
+  id: "mi-app",
+  titulo: "Nombre de la app",
+  resumen: "Qué permite hacer y para quién está pensada.",
+  categoria: "Apoyo docente",
+  icono: "grid", // key, compass, book o grid
+  fechaAlta: "", // Completar con la fecha real de incorporación.
+  url: "",       // Dirección publicada de la app.
+  acceso: "restringido" // Cambiar a "publico" cuando su acceso sea público.
+}
 ```
-index.html
-css/styles.css
-js/data.js
-js/app.js
-ejemplos/web-divulgacion/index.html
-ejemplos/web-divulgacion/segunda.html
-ejemplos/web-divulgacion/estilos.css
+
+Los enlaces a otras apps **no modifican sus permisos**. Las cuatro apps incorporadas tienen acceso restringido en los sitios localizados. Si una app se traslada a Cloudflare u otro alojamiento, actualiza `url` con el destino vigente.
+
+### Añadir un proyecto
+
+```js
+{
+  id: "proyecto-unico",
+  titulo: "Nombre del proyecto",
+  resumen: "Descripción breve del producto o trabajo.",
+  descripcion: "Contexto, desarrollo y resultado.",
+  anio: "2026/27",  // Curso académico.
+  nivel: "3.º ESO", // Nivel educativo.
+  grupo: "A",       // Grupo dentro del nivel; vacío si se desconoce.
+  materia: "Tecnología y Digitalización",
+  etiquetas: ["Prototipo", "Diseño"],
+  icono: "web", // web, robot o chart
+  fechaAlta: "",
+  url: "",
+  codigo: "",
+  ejemplo: false // Solo para trabajos reales revisados.
+}
 ```
 
-## Limitaciones
+Los filtros son **curso académico + nivel + grupo**, combinables con la búsqueda por título, materia, tema o etiquetas. Los niveles disponibles dependen del curso académico; los grupos, del curso académico y del nivel. Si una selección deja de existir, se restablece automáticamente. Los proyectos sin grupo tienen la opción «Sin especificar».
 
-- No hay base de datos, administración con contraseña ni subidas públicas. Para insertar proyectos se modifica `js/data.js` en GitHub.
-- Los proyectos se publican estáticamente: HTML, CSS, imágenes y JavaScript del navegador, sin PHP o Python de servidor.
-- El buscador filtra el listado cargado en la página, sin indexación de contenidos internos de las webs de cada proyecto.
+Los filtros quedan en la URL y se conservan al recargar o compartir el enlace. La búsqueda ignora mayúsculas y tildes. «Limpiar filtros» y el botón del estado sin resultados recuperan el listado completo.
+
+Se conservan **tres fichas de ejemplo** de la versión anterior, claramente identificadas y sin grupos inventados. Sustitúyelas por trabajos auténticos antes de usarlas como evidencia del trabajo del alumnado. El aviso desaparece automáticamente cuando ninguna ficha tiene `ejemplo: true`.
+
+Para publicar un proyecto HTML local, guarda sus archivos en una carpeta y usa una ruta como `proyectos/2026-27/3ESO-A/proyecto-01/index.html`. También puedes enlazar una web, documento, vídeo o repositorio que ya esté publicado.
+
+### Añadir una web de otro autor
+
+```js
+{
+  id: "referencia-unica",
+  titulo: "Nombre de la web",
+  descripcion: "Por qué puede resultar útil.",
+  autor: "Autor, entidad o comunidad responsable",
+  categoria: "DESARROLLO WEB",
+  fechaAlta: "",
+  url: ""
+}
+```
+
+El catálogo permite buscar por título, autor, descripción o categoría, y filtrar por categoría. Se mantienen las tres referencias de la versión anterior: MDN Web Docs, MakeCode micro:bit y MIT App Inventor.
+
+## Publicación y límites
+
+El repositorio existente publica desde `main` con GitHub Pages. No requiere instalación ni compilación. Mantén `index.html`, las tres páginas de catálogo y las carpetas `assets`, `css` y `js` en la misma raíz.
+
+No hay base de datos, panel de administración, cuentas ni subidas públicas. El contenido se edita en `js/data.js`. Los archivos de `ejemplos/` y `css/styles_v1.css` se conservan; el nuevo diseño no los utiliza. No se publican claves ni datos identificativos del alumnado en las fichas.
