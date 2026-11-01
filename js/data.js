@@ -9,6 +9,18 @@ window.SITE_DATA = {
   "limiteInicio": 3,
   "apps": [
     {
+      "id": "lectura-viva",
+      "titulo": "Lectura Viva",
+      "resumen": "Lecturas didácticas personalizadas y seguimiento lector por grupos y niveles.",
+      "categoria": "Lectura",
+      "icono": "book",
+      "url": "https://lecturaviva.mmorzur733.workers.dev/",
+      "fechaAlta": "2026-11-01",
+      "acceso": "cuenta-docente",
+      "estado": "publicada",
+      "plataforma": "Cloudflare"
+    },
+    {
       "id": "enigma",
       "titulo": "Máquina Enigma",
       "resumen": "Prototipo de seudonimización de documentos, hoja clave y restauración.",
@@ -16,7 +28,9 @@ window.SITE_DATA = {
       "icono": "key",
       "url": "https://maquina-enigma.mimozin.chatgpt.site",
       "fechaAlta": "2026-11-01",
-      "acceso": "restringido"
+      "acceso": "restringido",
+      "estado": "piloto",
+      "plataforma": "ChatGPT"
     },
     {
       "id": "acompana",
@@ -26,17 +40,9 @@ window.SITE_DATA = {
       "icono": "compass",
       "url": "https://acompana-los-colegiales.mimozin.chatgpt.site",
       "fechaAlta": "2026-11-01",
-      "acceso": "restringido"
-    },
-    {
-      "id": "lectura-viva",
-      "titulo": "Lectura Viva",
-      "resumen": "Lecturas didácticas personalizadas y seguimiento lector por grupos y niveles.",
-      "categoria": "Lectura",
-      "icono": "book",
-      "url": "https://lectura-viva-colegiales.mimozin.chatgpt.site",
-      "fechaAlta": "2026-11-01",
-      "acceso": "restringido"
+      "acceso": "restringido",
+      "estado": "piloto",
+      "plataforma": "ChatGPT"
     },
     {
       "id": "programador",
@@ -46,7 +52,9 @@ window.SITE_DATA = {
       "icono": "grid",
       "url": "https://programador-seneca-colegiales.mimozin.chatgpt.site",
       "fechaAlta": "2026-11-01",
-      "acceso": "restringido"
+      "acceso": "restringido",
+      "estado": "piloto",
+      "plataforma": "ChatGPT"
     }
   ],
   "proyectos": [
