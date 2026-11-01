@@ -1359,3 +1359,11 @@ dialog::backdrop {
   .blog-description { font-size: 10px; }
   .footer-credit { font-size: 10px; }
 }
+
+/* Estado de las aplicaciones: publicación externa o piloto de ChatGPT. */
+.app-labels { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+.app-status { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 650; line-height: 1.6; white-space: nowrap; }
+.app-status.is-published { color: #1b6349; background: #e4f2eb; }
+.app-status.is-pilot { color: #78540e; background: #fff1ce; }
+.lab-section .app-status.is-published { color: #c5f2dc; background: #294d49; }
+.lab-section .app-status.is-pilot { color: #ffe4a5; background: #504431; }
