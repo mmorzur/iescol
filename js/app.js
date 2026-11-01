@@ -1,125 +1,128 @@
 (() => {
   'use strict';
-  const data = window.SITE_DATA || {proyectos: [], recursos: [], demoMode: false};
-  const projects = Array.isArray(data.proyectos) ? data.proyectos : [];
-  const $ = (id) => document.getElementById(id);
-  const state = {kind: 'todos', year: 'todos', course: 'todos', subject: 'todas', query: ''};
-  const escapeHTML = (text) => String(text ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const normalized = (text) => String(text ?? '').toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const safeURL = (url) => {
-    const value = String(url ?? '').trim();
-    if (/^https:\/\//i.test(value)) return value;
-    if (value && !/^(\/|\\|\.|#)/.test(value) && !value.includes('..') && /^[\w\-./]+$/.test(value)) return value;
-    return '';
+  const data = window.SITE_DATA || {};
+  const page = document.body.dataset.page;
+  const $ = id => document.getElementById(id);
+  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
+  const safeURL = value => {
+    const url = String(value || '').trim();
+    if (!url || /[\u0000-\u0020\\]/.test(url)) return '';
+    if (/^https:\/\//i.test(url)) { try { const parsed = new URL(url); return parsed.hostname && !parsed.username && !parsed.password ? url : ''; } catch { return ''; } }
+    if (/^[a-z][a-z0-9+.-]*:/i.test(url) || url.startsWith('//') || url.startsWith('/')) return '';
+    return url;
   };
-  const glyphs = {
-    web: '<rect x="4" y="6" width="40" height="33"/><path d="M4 15h40M12 10h1M18 10h1M24 10h1"/><path d="m20 23-7 5 7 5m8-10 7 5-7 5"/>',
-    robot: '<rect x="10" y="12" width="28" height="26"/><path d="M24 5v7M20 5h8M5 21h5m28 0h5M17 28h3m8 0h3M17 33h14"/>',
-    chart: '<path d="M6 6v35h37M13 33v-9h7v9M24 33V13h7v20M35 33V20h7v13"/>',
-    code: '<rect x="4" y="6" width="40" height="36"/><path d="M4 15h40m-26 8-6 5 6 5m12-10 6 5-6 5m-6-12-4 15"/>',
-    grid: '<rect x="5" y="5" width="17" height="17"/><rect x="26" y="5" width="17" height="17"/><rect x="5" y="26" width="17" height="17"/><rect x="26" y="26" width="17" height="17"/>',
-    spark: '<path d="M24 3 29 19l16 5-16 5-5 16-5-16-16-5 16-5z"/><path d="M4 4h8M8 0v8M38 38h8m-4-4v8"/>'
-  };
-  const projectIcon = (name) => `<svg class="project-icon" width="72" height="72" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">${glyphs[name] || glyphs.web}</svg>`;
-  const subjectSet = [...new Set(projects.map(p => p.materia).filter(Boolean))].sort((a,b) => a.localeCompare(b,'es'));
-  const yearSet = [...new Set(projects.map(p => p.anio).filter(Boolean))].sort((a,b) => b.localeCompare(a,'es'));
-  const courseSet = [...new Set(projects.map(p => p.curso).filter(Boolean))].sort((a,b) => a.localeCompare(b,'es'));
-  for (const year of yearSet) $('yearSelect').add(new Option(year,year));
-  for (const course of courseSet) $('courseSelect').add(new Option(course,course));
-  for (const subject of subjectSet) $('subjectSelect').add(new Option(subject,subject));
-  $('countTotal').textContent = String(projects.length).padStart(2, '0');
-  if (data.demoMode) $('demoNotice').hidden = false;
-  else document.querySelector('.section-side-note small').textContent = 'proyectos archivados';
-
-  function matches(p) {
-    if (state.kind !== 'todos' && p.tipo !== state.kind) return false;
-    if (state.year !== 'todos' && p.anio !== state.year) return false;
-    if (state.course !== 'todos' && p.curso !== state.course) return false;
-    if (state.subject !== 'todas' && p.materia !== state.subject) return false;
-    if (state.query) {
-      const haystack = normalized([p.titulo,p.resumen,p.materia,p.curso,p.anio,...(p.etiquetas || [])].join(' '));
-      if (!haystack.includes(normalized(state.query))) return false;
-    }
-    return true;
-  }
-  function render() {
-    const visible = projects.filter(matches);
-    $('resultCount').textContent = `${visible.length} ${visible.length === 1 ? 'proyecto' : 'proyectos'}`;
-    $('projectGrid').innerHTML = visible.map((p,i) => {
-      const tipo = p.tipo === 'docente' ? 'Laboratorio' : 'Alumnado';
-      const tags = (p.etiquetas || []).slice(0,3).map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join('');
-      const color = ['menta','lila','melocoton','amarillo','azul','rosa'].includes(p.color) ? p.color : 'menta';
-      return `<article class="project-card" style="--card-order:${i}">
-        <div class="project-preview ${color}"><div class="preview-top"><span>▣ ${escapeHTML(p.anio)}</span><span>+ + +</span></div><div class="preview-icon">${projectIcon(p.icono)}</div><span class="preview-corner" aria-hidden="true">▦</span></div>
-        <div class="project-body"><div class="project-type"><span>${escapeHTML(tipo)}</span><span class="project-code">${escapeHTML(p.curso || '')}</span></div>
-        <h3>${escapeHTML(p.titulo)}</h3><p>${escapeHTML(p.resumen)}</p><div class="tag-list">${tags}</div><div class="project-bottom"><span>${escapeHTML(p.materia || 'Sin materia')}</span><button type="button" class="card-open" data-project="${escapeHTML(p.id)}" aria-label="Ver ficha de ${escapeHTML(p.titulo)}">↗</button></div></div>
-      </article>`;
-    }).join('');
-    $('emptyState').hidden = visible.length !== 0;
-  }
-  function setKind(kind) {
-    state.kind = kind;
-    for (const button of document.querySelectorAll('[data-kind]')) {
-      const active = button.dataset.kind === kind;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    }
-    render();
-  }
-  function reset() {
-    state.kind = 'todos'; state.year = 'todos'; state.course = 'todos'; state.subject = 'todas'; state.query = '';
-    $('searchInput').value = '';
-    $('yearSelect').value = 'todos';
-    $('courseSelect').value = 'todos';
-    $('subjectSelect').value = 'todas';
-    setKind('todos');
-  }
-  document.querySelectorAll('[data-kind]').forEach(b => b.addEventListener('click', () => setKind(b.dataset.kind)));
-  document.querySelectorAll('[data-jump-kind]').forEach(b => b.addEventListener('click', () => {
-    setKind(b.dataset.jumpKind);
-    $('archivo').scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
-  }));
-  $('searchInput').addEventListener('input', e => {state.query = e.target.value.trim(); render();});
-  $('yearSelect').addEventListener('change', e => {state.year = e.target.value; render();});
-  $('courseSelect').addEventListener('change', e => {state.course = e.target.value; render();});
-  $('subjectSelect').addEventListener('change', e => {state.subject = e.target.value; render();});
-  $('resetFilters').addEventListener('click', reset);
-  $('emptyReset').addEventListener('click', reset);
-
-  const dialog = $('projectDialog');
-  function openProject(id) {
-    const p = projects.find(project => project.id === id);
-    if (!p) return;
-    $('dialogType').textContent = `${p.tipo === 'docente' ? 'LABORATORIO' : 'ALUMNADO'} / ${p.anio || ''}`;
-    $('dialogTitle').textContent = p.titulo;
-    $('dialogSummary').textContent = p.resumen;
-    $('dialogDescription').textContent = p.descripcion || p.resumen;
-    $('dialogMeta').innerHTML = `<span>${escapeHTML(p.curso || '—')}</span><span>${escapeHTML(p.materia || '—')}</span>`;
-    $('dialogTags').innerHTML = (p.etiquetas || []).map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join('');
-    const links = [['Abrir proyecto', safeURL(p.url)], ['Ver código', safeURL(p.codigo)]].filter(([,url]) => url);
-    $('dialogLinks').innerHTML = links.length ? links.map(([label,url])=>`<a class="button button-primary" href="${escapeHTML(url)}" ${url.startsWith('https://') ? 'target="_blank" rel="noopener noreferrer"' : ''}>${label} ↗</a>`).join('') : '<p class="unpublished">Proyecto sin enlace público. La ficha sigue disponible como referencia.</p>';
-    dialog.showModal();
-  }
-  $('projectGrid').addEventListener('click', e => {const b = e.target.closest('[data-project]'); if (b) openProject(b.dataset.project);});
-  $('dialogClose').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', e => {if (e.target === dialog) dialog.close();});
-
-  $('resourcesGrid').innerHTML = (data.recursos || []).map((r,i) => {
-    const url = safeURL(r.url);
-    return `<article class="resource-card"><div class="resource-top"><span>0${i+1}</span><span aria-hidden="true">↗</span></div><span class="resource-category">${escapeHTML(r.categoria)}</span><h3>${escapeHTML(r.titulo)}</h3><p>${escapeHTML(r.descripcion)}</p>${url ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir ${escapeHTML(r.titulo)} en una nueva pestaña" class="resource-link">Abrir recurso ↗</a>` : ''}</article>`;
-  }).join('');
-
-  const menuButton = $('menuToggle');
-  menuButton.addEventListener('click', () => {
-    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!isOpen));
-    menuButton.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
-    $('mainNav').classList.toggle('open', !isOpen);
+  const latest = entries => [...(entries || [])].sort((a,b) => {
+    const date = entry => /^\d{4}-\d{2}-\d{2}$/.test(entry.fechaAlta || '') ? entry.fechaAlta : '';
+    return date(b).localeCompare(date(a));
   });
-  document.querySelectorAll('#mainNav a').forEach(link => link.addEventListener('click', () => {
-    $('mainNav').classList.remove('open');
-    menuButton.setAttribute('aria-expanded','false');
-    menuButton.setAttribute('aria-label', 'Abrir menú');
-  }));
-  render();
+  const apps = latest(data.apps), projects = latest(data.proyectos), webs = latest(data.webs);
+  const external = url => /^https:\/\//i.test(url) ? ' target="_blank" rel="noopener noreferrer"' : '';
+  const link = (raw, label, cls = 'card-link') => {const url = safeURL(raw); return url ? `<a class="${cls}" href="${escapeHTML(url)}"${external(url)}>${label} <span aria-hidden="true">↗</span><span class="sr-only">${external(url) ? ' (se abre en otra pestaña)' : ''}</span></a>` : '';};
+  const icon = name => {
+    const shapes = {key:'<rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',compass:'<circle cx="12" cy="12" r="9"/><path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8Z"/>',book:'<path d="M12 5v16M12 5C9 2 4 3 2 4v15c4-2 7-1 10 2 3-3 6-4 10-2V4c-4-2-7-1-10 1Z"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'};
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[name] || shapes.grid}</svg>`;
+  };
+  const art = name => {
+    const shapes = {web:'<rect x="13" y="12" width="136" height="90" rx="6" fill="white"/><path d="M13 33h136"/><circle cx="24" cy="23" r="2"/><circle cx="33" cy="23" r="2"/><circle cx="42" cy="23" r="2"/><path d="m60 51-13 12 13 12m36-24 13 12-13 12m-10-29L72 80"/>',robot:'<rect x="38" y="28" width="86" height="62" rx="10" fill="white"/><path d="M81 28V13m-7 0h14M27 44v28m108-28v28M56 90v12m50-12v12M66 74h30"/><rect x="54" y="44" width="13" height="13" rx="3"/><rect x="95" y="44" width="13" height="13" rx="3"/>',chart:'<rect x="15" y="10" width="132" height="95" rx="6" fill="white"/><path d="M34 85h95M44 77V61h16v16m13 0V46h16v31m13 0V30h16v47M37 42l25-13 20 4 30-16"/>'};
+    return `<svg viewBox="0 0 162 115" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${shapes[name] || shapes.web}</svg>`;
+  };
+  const appCard = app => `<article class="app-card"><div class="app-card-top"><span class="app-icon">${icon(app.icono)}</span><span class="app-category">${escapeHTML(app.categoria)}</span></div><h3>${escapeHTML(app.titulo)}</h3><p>${escapeHTML(app.resumen)}</p><div class="app-card-bottom"><span class="access">${app.acceso === 'restringido' ? 'Acceso restringido' : 'App propia'}</span>${link(app.url,'Abrir app') || '<span class="access">Enlace pendiente</span>'}</div></article>`;
+  const projectCard = project => `<article class="project-card"><div class="project-art" data-icon="${escapeHTML(project.icono)}"><span class="art-label">${escapeHTML(project.materia)}</span>${art(project.icono)}<span class="art-cross" aria-hidden="true">+</span></div><div class="project-body"><div class="project-meta"><span>${escapeHTML(project.nivel)}${project.grupo ? ` · ${escapeHTML(project.grupo)}` : ''}</span><span>${escapeHTML(project.anio)}</span></div><h3>${escapeHTML(project.titulo)}</h3><p>${escapeHTML(project.resumen)}</p><div class="tags">${(project.etiquetas || []).map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join('')}</div><div class="project-bottom"><span class="sample-label">${project.ejemplo ? 'EJEMPLO' : escapeHTML(project.grupo ? `Grupo ${project.grupo}` : 'Grupo sin indicar')}</span><button type="button" class="detail-button" data-project="${escapeHTML(project.id)}" aria-label="Ver ficha de ${escapeHTML(project.titulo)}">Ver proyecto <span aria-hidden="true">↗</span></button></div></div></article>`;
+  const webCard = (web,index) => `<article class="web-row"><span class="web-number" aria-hidden="true">${String(index+1).padStart(2,'0')}</span><div><h3>${escapeHTML(web.titulo)}</h3><p>${escapeHTML(web.descripcion)}</p><span class="web-author">Autoría: ${escapeHTML(web.autor || 'No indicada')}</span></div><span class="web-category">${escapeHTML(web.categoria)}</span>${link(web.url,'Visitar web') || '<span class="access">Enlace pendiente</span>'}</article>`;
+  const renderInto = (id,items,render) => { if ($(id)) $(id).innerHTML = items.length ? items.map(render).join('') : '<p class="unpublished">Todavía no hay incorporaciones en esta sección.</p>'; };
+  const demo = projects.some(p=>p.ejemplo);
+  if ($('demoNotice')) $('demoNotice').hidden = !demo;
+  if ($('menuToggle')) {
+    const closeMenu = () => {$('mainNav').classList.remove('is-open');$('menuToggle').setAttribute('aria-expanded','false');};
+    $('menuToggle').addEventListener('click',()=>{const open=$('mainNav').classList.toggle('is-open');$('menuToggle').setAttribute('aria-expanded',String(open));});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+    $('mainNav').addEventListener('click',e=>{if(e.target.closest('a'))closeMenu();});
+    window.addEventListener('resize',()=>{if(window.innerWidth>800)closeMenu();});
+  }
+  if (page === 'home') {
+    const limit = Number.isInteger(data.limiteInicio) && data.limiteInicio > 0 ? data.limiteInicio : 3;
+    renderInto('latestApps',apps.slice(0,limit),appCard);
+    renderInto('latestProjects',projects.slice(0,limit),projectCard);
+    renderInto('latestWebs',webs.slice(0,limit),webCard);
+    $('appsCount').textContent = `${apps.length} ${apps.length===1?'app':'apps'} en el laboratorio`;
+    $('projectsCount').textContent = projects.length && projects.every(p=>p.ejemplo) ? `${projects.length} fichas de ejemplo` : `${projects.filter(p=>!p.ejemplo).length} proyectos publicados`;
+    $('websCount').textContent = `${webs.length} ${webs.length===1?'web seleccionada':'webs seleccionadas'}`;
+  }
+  if (['projects','lab','webs'].includes(page)) {
+    const MISSING_GROUP = '__sin_grupo__';
+    const controls = page==='projects' ? {anio:$('yearSelect'),nivel:$('levelSelect'),grupo:$('groupSelect')} : page==='webs' ? {categoria:$('categorySelect')} : {};
+    const placeholder = {anio:'Todos los cursos',nivel:'Todos los niveles',grupo:'Todos los grupos',categoria:'Todas las categorías'};
+    const state = {q:'',anio:'',nivel:'',grupo:'',categoria:''};
+    const groupOf = p => p.grupo || MISSING_GROUP;
+    const options = (key,values) => {
+      const select=controls[key];
+      const current=state[key];
+      const sorted=[...new Set(values.filter(Boolean))].sort((a,b)=>key==='anio'?b.localeCompare(a,'es'):a.localeCompare(b,'es',{numeric:true}));
+      select.innerHTML=`<option value="">${placeholder[key]}</option>`+sorted.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v===MISSING_GROUP?'Sin especificar':v)}</option>`).join('');
+      state[key]=sorted.includes(current)?current:'';
+      select.value=state[key];
+    };
+    const updateFacets = () => {
+      if(page==='projects') {
+        options('anio',projects.map(p=>p.anio));
+        const inYear=projects.filter(p=>!state.anio||p.anio===state.anio);
+        options('nivel',inYear.map(p=>p.nivel));
+        options('grupo',inYear.filter(p=>!state.nivel||p.nivel===state.nivel).map(groupOf));
+      } else if(page==='webs') options('categoria',webs.map(w=>w.categoria));
+    };
+    const writeURL=()=>{
+      const url=new URL(location.href);
+      for(const key of ['q',...Object.keys(controls)]){if(state[key])url.searchParams.set(key,state[key]);else url.searchParams.delete(key);}
+      history.replaceState(null,'',url);
+    };
+    const render=()=>{
+      updateFacets();
+      const source=page==='projects'?projects:page==='lab'?apps:webs;
+      const filtered=source.filter(item=>{
+        if(page==='projects'&&((state.anio&&item.anio!==state.anio)||(state.nivel&&item.nivel!==state.nivel)||(state.grupo&&groupOf(item)!==state.grupo)))return false;
+        if(page==='webs'&&state.categoria&&item.categoria!==state.categoria)return false;
+        return !state.q || normalize([item.titulo,item.resumen,item.descripcion,item.autor,item.categoria,item.materia,item.anio,item.nivel,item.grupo,...(item.etiquetas||[])].join(' ')).includes(normalize(state.q));
+      });
+      const renderer=page==='projects'?projectCard:page==='lab'?appCard:webCard;
+      $('catalogGrid').innerHTML=filtered.map(renderer).join('');
+      $('catalogGrid').hidden=filtered.length===0;
+      $('emptyState').hidden=filtered.length>0;
+      const noun=page==='projects'?'proyectos':page==='lab'?'apps':'webs';
+      $('resultCount').textContent=`${filtered.length} de ${source.length} ${noun}${page==='projects'&&source.length&&source.every(p=>p.ejemplo)?' · ejemplos':''}`;
+    };
+    const readURL=()=>{
+      const params=new URLSearchParams(location.search);
+      for(const key of ['q',...Object.keys(controls)])state[key]=params.get(key)||'';
+      $('searchInput').value=state.q;
+      render();
+    };
+    $('searchInput').addEventListener('input',e=>{state.q=e.target.value;render();writeURL();});
+    for(const [key,select] of Object.entries(controls))select.addEventListener('change',()=>{state[key]=select.value;render();writeURL();});
+    const reset=()=>{for(const key of Object.keys(state))state[key]='';$('searchInput').value='';render();writeURL();};
+    $('resetFilters')?.addEventListener('click',reset);
+    document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',reset));
+    window.addEventListener('popstate',readURL);
+    readURL();
+  }
+  const dialog=$('projectDialog');
+  if(dialog){
+    let opener;
+    document.addEventListener('click',e=>{
+      const button=e.target.closest('[data-project]');
+      if(!button)return;
+      const p=projects.find(item=>item.id===button.dataset.project);
+      if(!p)return;
+      opener=button;
+      $('dialogTitle').textContent=p.titulo;
+      $('dialogMeta').innerHTML=[p.anio,p.nivel,p.grupo?`Grupo ${p.grupo}`:'Grupo sin especificar',p.materia,p.ejemplo?'Ejemplo de muestra':''].filter(Boolean).map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join('');
+      $('dialogDescription').textContent=p.descripcion||p.resumen;
+      $('dialogTags').innerHTML=(p.etiquetas||[]).map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join('');
+      $('dialogLinks').innerHTML=link(p.url,'Abrir proyecto','button primary')+link(p.codigo,'Ver código','button secondary') || '<p class="unpublished">Esta ficha todavía no tiene un enlace a un proyecto publicado.</p>';
+      dialog.showModal();
+    });
+    $('dialogClose').addEventListener('click',()=>dialog.close());
+    dialog.addEventListener('click',e=>{if(e.target===dialog){const rect=dialog.getBoundingClientRect();if(e.clientX<rect.left||e.clientX>rect.right||e.clientY<rect.top||e.clientY>rect.bottom)dialog.close();}});
+    dialog.addEventListener('close',()=>opener?.focus());
+  }
 })();
