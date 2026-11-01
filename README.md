@@ -48,11 +48,15 @@ Las apps de este rediseño se incorporaron el 01/11/2026. No se han atribuido fe
   icono: "grid", // key, compass, book o grid
   fechaAlta: "", // Completar con la fecha real de incorporación.
   url: "",       // Dirección publicada de la app.
-  acceso: "restringido" // Cambiar a "publico" cuando su acceso sea público.
+  estado: "piloto", // Usar "publicada" para una instalación externa verificada.
+  plataforma: "ChatGPT",
+  acceso: "restringido" // "publico" o "cuenta-docente" según su acceso real.
 }
 ```
 
-Los enlaces a otras apps **no modifican sus permisos**. Las cuatro apps incorporadas tienen acceso restringido en los sitios localizados. Si una app se traslada a Cloudflare u otro alojamiento, actualiza `url` con el destino vigente.
+Los enlaces a otras apps **no modifican sus permisos**. Lectura Viva enlaza a su instalación publicada desde el repositorio `mmorzur/lecturaviva`, en `https://lecturaviva.mmorzur733.workers.dev/`, y usa cuentas docentes propias. Máquina Enigma, Acompaña y Programador Séneca conservan sus direcciones de ChatGPT y se identifican como «Piloto · ChatGPT».
+
+En cada app, `estado` admite `publicada` o `piloto`; `plataforma` identifica el alojamiento para la búsqueda. El botón de los pilotos dice «Abrir piloto». Las direcciones `*.chatgpt.site` se identifican automáticamente como pilotos, aunque falte el campo. `acceso: "cuenta-docente"` muestra «Cuenta docente» y `acceso: "restringido"` muestra «Acceso restringido». El estado de publicación y el tipo de acceso se muestran por separado. «Versión publicada» identifica la instalación externa; no certifica su madurez o ausencia de errores.
 
 ### Añadir un proyecto
 
