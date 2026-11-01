@@ -1,90 +1,143 @@
-/* EDITA ESTE ARCHIVO para publicar tus proyectos. No hace falta tocar HTML ni CSS.
-   demoMode: true muestra el aviso de que los registros son ejemplos.
-   Cuando sustituyas todos los ejemplos por trabajos reales revisados, cambia a false.
-   URL: deja "" si aún no se ha publicado; admite direcciones HTTPS o rutas relativas.
-   No incluyas nombres completos ni información identificativa de menores. */
+/* TOC LAB · Catálogos editables.
+   Añade fichas a apps, proyectos o webs. La portada se actualiza automáticamente.
+   fechaAlta: fecha REAL de incorporación (AAAA-MM-DD), no de realización del trabajo.
+   Las fechas vacías se ordenan al final, respetando el orden de este archivo.
+   Proyectos: anio = curso académico; nivel = 3.º ESO; grupo = A (sin repetir el nivel).
+   ejemplo: true identifica una muestra; no lo quites hasta incorporar un trabajo real.
+   URL: HTTPS o ruta relativa; deja "" si no hay destino. Nunca añadas contraseñas. */
 window.SITE_DATA = {
-  demoMode: true,
-  proyectos: [
+  "limiteInicio": 3,
+  "apps": [
     {
-      id: "web-divulgacion",
-      tipo: "alumnado",
-      titulo: "Web de divulgación científica",
-      resumen: "Dos páginas conectadas para explicar un fenómeno científico de forma visual y clara.",
-      descripcion: "Ejemplo de proyecto HTML y CSS con navegación, imágenes, estilos compartidos y una reflexión sobre las fuentes utilizadas. La ficha muestra cómo documentar un trabajo sin publicar datos del alumnado.",
-      curso: "3.º ESO",
-      materia: "Computación y Robótica",
-      anio: "2026/27",
-      etiquetas: ["HTML", "CSS", "Web"],
-      color: "menta",
-      icono: "web",
-      url: "", // Ruta de demostración omitida: el archivo de destino no se ha facilitado.
-      codigo: ""
+      "id": "enigma",
+      "titulo": "Máquina Enigma",
+      "resumen": "Prototipo de seudonimización de documentos, hoja clave y restauración.",
+      "categoria": "Privacidad",
+      "icono": "key",
+      "url": "https://maquina-enigma.mimozin.chatgpt.site",
+      "fechaAlta": "2026-11-01",
+      "acceso": "restringido"
     },
     {
-      id: "robot-obstaculos",
-      tipo: "alumnado",
-      titulo: "Robot que detecta obstáculos",
-      resumen: "Programación por bloques, lectura del sensor y pruebas de respuesta automática.",
-      descripcion: "Ficha ilustrativa de un sistema robótico con una entrada, una decisión y una salida. Puede enlazar a una página de documentación, un vídeo autorizado o una simulación.",
-      curso: "2.º ESO",
-      materia: "Computación y Robótica",
-      anio: "2025/26",
-      etiquetas: ["Robótica", "Sensores", "MakeCode"],
-      color: "lila", icono: "robot", url: "", codigo: ""
+      "id": "acompana",
+      "titulo": "Acompaña",
+      "resumen": "Asistente docente para preparar y revisar programas de refuerzo y profundización.",
+      "categoria": "Apoyo docente",
+      "icono": "compass",
+      "url": "https://acompana-los-colegiales.mimozin.chatgpt.site",
+      "fechaAlta": "2026-11-01",
+      "acceso": "restringido"
     },
     {
-      id: "economia-local",
-      tipo: "alumnado",
-      titulo: "Mapa de iniciativas locales",
-      resumen: "Investigación y representación de propuestas de economía y emprendimiento.",
-      descripcion: "Ejemplo de producto de investigación orientado a comparar iniciativas con indicadores definidos, citar fuentes y comunicar conclusiones.",
-      curso: "4.º ESO",
-      materia: "Economía y Emprendimiento",
-      anio: "2026/27",
-      etiquetas: ["Investigación", "Datos", "Entorno"],
-      color: "melocoton", icono: "chart", url: "", codigo: ""
+      "id": "lectura-viva",
+      "titulo": "Lectura Viva",
+      "resumen": "Lecturas didácticas personalizadas y seguimiento lector por grupos y niveles.",
+      "categoria": "Lectura",
+      "icono": "book",
+      "url": "https://lectura-viva-colegiales.mimozin.chatgpt.site",
+      "fechaAlta": "2026-11-01",
+      "acceso": "restringido"
     },
     {
-      id: "kit-html-css",
-      tipo: "docente",
-      titulo: "Kit de retos HTML + CSS",
-      resumen: "Actividades graduadas para aprender estructura, estilo, enlaces y depuración.",
-      descripcion: "Ejemplo de recurso docente compuesto por pequeños retos autocontenidos, un proyecto final y comprobaciones individuales. Sustituye esta ficha por tus materiales cuando estén listos para difusión.",
-      curso: "3.º ESO",
-      materia: "Computación y Robótica",
-      anio: "2026/27",
-      etiquetas: ["Material didáctico", "HTML", "CSS"],
-      color: "amarillo", icono: "code", url: "", codigo: ""
-    },
-    {
-      id: "cuaderno-steam",
-      tipo: "docente",
-      titulo: "Cuaderno de retos STEAM",
-      resumen: "Un esquema reutilizable para documentar prototipos, decisiones y pruebas.",
-      descripcion: "Ficha de muestra de un material para guiar proyectos de carácter científico-tecnológico. Cada reto reúne pregunta, restricciones, prototipo, prueba y mejora.",
-      curso: "Secundaria",
-      materia: "Tecnología",
-      anio: "2025/26",
-      etiquetas: ["STEAM", "Prototipos", "Evaluación"],
-      color: "azul", icono: "grid", url: "", codigo: ""
-    },
-    {
-      id: "ia-aula",
-      tipo: "docente",
-      titulo: "IA: probar y comprender",
-      resumen: "Una secuencia de experimentos para analizar datos, clasificación y errores.",
-      descripcion: "Ejemplo de secuencia que prioriza la comprensión del funcionamiento y las limitaciones de modelos sencillos frente al uso superficial de herramientas.",
-      curso: "ESO",
-      materia: "Computación y Robótica",
-      anio: "2026/27",
-      etiquetas: ["IA", "Datos", "Didáctica"],
-      color: "rosa", icono: "spark", url: "", codigo: ""
+      "id": "programador",
+      "titulo": "Programador Séneca",
+      "resumen": "Apoyo a la elaboración y revisión de programaciones didácticas por apartados.",
+      "categoria": "Planificación",
+      "icono": "grid",
+      "url": "https://programador-seneca-colegiales.mimozin.chatgpt.site",
+      "fechaAlta": "2026-11-01",
+      "acceso": "restringido"
     }
   ],
-  recursos: [
-    { categoria: "DESARROLLO WEB", titulo: "MDN Web Docs", descripcion: "Referencia sobre HTML, CSS y JavaScript.", url: "https://developer.mozilla.org/es/docs/Web" },
-    { categoria: "COMPUTACIÓN FÍSICA", titulo: "MakeCode micro:bit", descripcion: "Programación visual y simulador para micro:bit.", url: "https://makecode.microbit.org/" },
-    { categoria: "APPS", titulo: "MIT App Inventor", descripcion: "Entorno visual para construir aplicaciones.", url: "https://appinventor.mit.edu/" }
+  "proyectos": [
+    {
+      "id": "web-divulgacion",
+      "titulo": "Web de divulgación científica",
+      "resumen": "Dos páginas conectadas para explicar un fenómeno científico de forma visual y clara.",
+      "descripcion": "Ejemplo de proyecto HTML y CSS con navegación, imágenes, estilos compartidos y una reflexión sobre las fuentes utilizadas. La ficha muestra cómo documentar un trabajo sin publicar datos del alumnado.",
+      "materia": "Computación y Robótica",
+      "anio": "2026/27",
+      "etiquetas": [
+        "HTML",
+        "CSS",
+        "Web"
+      ],
+      "icono": "web",
+      "url": "",
+      "codigo": "",
+      "nivel": "3.º ESO",
+      "grupo": "",
+      "fechaAlta": "",
+      "ejemplo": true
+    },
+    {
+      "id": "robot-obstaculos",
+      "titulo": "Robot que detecta obstáculos",
+      "resumen": "Programación por bloques, lectura del sensor y pruebas de respuesta automática.",
+      "descripcion": "Ficha ilustrativa de un sistema robótico con una entrada, una decisión y una salida. Puede enlazar a una página de documentación, un vídeo autorizado o una simulación.",
+      "materia": "Computación y Robótica",
+      "anio": "2025/26",
+      "etiquetas": [
+        "Robótica",
+        "Sensores",
+        "MakeCode"
+      ],
+      "icono": "robot",
+      "url": "",
+      "codigo": "",
+      "nivel": "2.º ESO",
+      "grupo": "",
+      "fechaAlta": "",
+      "ejemplo": true
+    },
+    {
+      "id": "economia-local",
+      "titulo": "Mapa de iniciativas locales",
+      "resumen": "Investigación y representación de propuestas de economía y emprendimiento.",
+      "descripcion": "Ejemplo de producto de investigación orientado a comparar iniciativas con indicadores definidos, citar fuentes y comunicar conclusiones.",
+      "materia": "Economía y Emprendimiento",
+      "anio": "2026/27",
+      "etiquetas": [
+        "Investigación",
+        "Datos",
+        "Entorno"
+      ],
+      "icono": "chart",
+      "url": "",
+      "codigo": "",
+      "nivel": "4.º ESO",
+      "grupo": "",
+      "fechaAlta": "",
+      "ejemplo": true
+    }
+  ],
+  "webs": [
+    {
+      "categoria": "DESARROLLO WEB",
+      "titulo": "MDN Web Docs",
+      "descripcion": "Referencia sobre HTML, CSS y JavaScript.",
+      "url": "https://developer.mozilla.org/es/docs/Web",
+      "id": "mdn",
+      "autor": "Mozilla y comunidad MDN",
+      "fechaAlta": ""
+    },
+    {
+      "categoria": "COMPUTACIÓN FÍSICA",
+      "titulo": "MakeCode micro:bit",
+      "descripcion": "Programación visual y simulador para micro:bit.",
+      "url": "https://makecode.microbit.org/",
+      "id": "makecode",
+      "autor": "Microsoft MakeCode",
+      "fechaAlta": ""
+    },
+    {
+      "categoria": "APPS",
+      "titulo": "MIT App Inventor",
+      "descripcion": "Entorno visual para construir aplicaciones.",
+      "url": "https://appinventor.mit.edu/",
+      "id": "appinventor",
+      "autor": "MIT App Inventor",
+      "fechaAlta": ""
+    }
   ]
 };
